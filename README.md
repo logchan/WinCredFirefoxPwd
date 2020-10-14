@@ -17,7 +17,7 @@ The program checks once a second if Firefox is prompting for the master password
 
 ### Initial configuration
 
-Open `Credential Manager` and select `Windows Credentials`. Look for `Generic Credentials`, and click the `Add a generic credentail` button to its right. Enter these information:
+Open `Credential Manager` and select `Windows Credentials`. Look for `Generic Credentials`, and click the `Add a generic credential` button to its right. Enter these information:
 
 ```
 Internet or network address: firefox-master
