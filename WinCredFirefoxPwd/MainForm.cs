@@ -6,9 +6,26 @@ namespace WinCredFirefoxPwd {
     public partial class MainForm : Form {
         private const string TargetTitle = "Password Required - Mozilla Firefox";
         private const string TargetFile = @"C:\Program Files\Mozilla Firefox\firefox.exe";
+        private const int RetryCount = 4;
+        private const int RetryInterval = 60;
+
+        private DateTime _lastTime = DateTime.UtcNow;
+        private int _numRetries = 0;
 
         public MainForm() {
             InitializeComponent();
+        }
+
+        private bool CheckRetry() {
+            var time = DateTime.UtcNow;
+            if ((time - _lastTime).TotalSeconds >= RetryInterval) {
+                _numRetries = 0;
+                _lastTime = time;
+                return true;
+            }
+
+            ++_numRetries;
+            return _numRetries < RetryCount;
         }
 
         private void checkWindowTimer_Tick(object sender, EventArgs e) {
@@ -29,6 +46,10 @@ namespace WinCredFirefoxPwd {
             wndFileLbl.ForeColor = fileMatches ? Color.Green : Color.Red;
 
             if (!fileMatches) {
+                return;
+            }
+
+            if (!CheckRetry()) {
                 return;
             }
 
